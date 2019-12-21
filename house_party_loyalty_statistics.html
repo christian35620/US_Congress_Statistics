@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>House Party Loyalty</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="./styles/styles.css">
+        <!-- <script src="./json/pro-congress-113-house.json"></script> -->
+        <script src="./json/statistics.json"></script>
+        <!-- <script src="./json/eeuu_states.json"></script> -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </head>
+    
+    <body>
+        <div class="container house" id="loyalty">
+            <header class="row">
+                <div class="col-md-3">
+                    <a href="./home.html"><img class="logo" src="./images/tgif_logo_h.jpg" height="100" width="300" alt="logo TGIF"></a>
+                </div>
+                <div class="col-md-6"></div>
+                <div class="col-md-3 align-self-center">
+                    <img src="./images/mail_icon.png" alt="">
+                    <a href="mailto:info@tgif.net">info@tgif.net</a>
+                </div>
+            </header>
+            <nav>
+            <div>
+                <ul class="nav nav-tabs border border-dark py-0">
+                    <li class="nav-item">
+                        <a class="nav-link border border-0 rounded-0" href="./home.html">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle border border-0 rounded-0" data-toggle="dropdown" href="#">Congress 113</a>
+                        <div class="dropdown-menu border border-dark rounded">
+                            <a class="dropdown-item" href="./house-data.html">House</a>
+                            <a class="dropdown-item" href="./senate-data.html">Senate</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle border border-0 rounded-0" data-toggle="dropdown" href="#">Attendance</a>
+                        <div class="dropdown-menu border border-dark rounded">
+                            <a class="dropdown-item" href="./house_attendance_statistics.html">House</a>
+                            <a class="dropdown-item" href="./senate_attendance_statistics.html">Senate</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle border border-0 rounded-0" data-toggle="dropdown" href="#">Party Loyalty</a>
+                        <div class="dropdown-menu border border-dark rounded">
+                            <a class="dropdown-item" href="#">House</a>
+                            <a class="dropdown-item" href="./senate_party_loyalty_statistics.html">Senate</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            </nav>        
+
+
+            <br><br>  
+            <div id="app">
+                <div class="row">
+                    <div class="col-6">
+                        <h4>Party Loyalty</h4>
+                        <p>Those who consider themselves to be strong partisans, strong Democrats and strong Republicans respectively, tend to be the most faithful in voting for their party's nominee for office and legislation that backs their party's agenda. </p>
+                    </div>
+        	    
+                    <div class="col-6">
+                        <h4>House at a glance</h4>
+                        <table class="table table-hover">
+                            <thead class='thead-dark'>
+                                <tr><th>Party</th>
+                                <th>Number of Reps</th>
+                                <th>% Voted with Prty</th>
+                            </thead>
+                            <tbody>
+                                <!-- <template > -->
+                                    <tr v-for="index in 4" :key="index">
+                                        <td>{{estadisticas.parties[index-1]}}</td> 
+                                        <td>{{estadisticas.number_of_senators[index-1]}}</td>
+                                        <td>{{estadisticas.vwp_pct[index-1].toFixed(1)}} %</td>
+                                    </tr>
+                                <!-- </template> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6" >
+                        <h4>Least Loyal (Bottom 10% of Party)</h4>
+                        <table class="table table-bordered" >
+                            <thead class='thead-dark'>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Number Party Votes</th>
+                                    <th>% Party Votes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="menor in estadisticas.least_loyal">
+                                    <td>{{menor.last_name}}, {{menor.first_name}} {{menor.middle_name}}</td>
+                                    <td>{{Math.round((menor.total_votes-menor.missed_votes)*(menor.votes_with_party_pct/100))}}</td>
+                                    <td>{{menor.votes_with_party_pct.toFixed(2)}} %</td>
+                                </tr>  
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-6">
+                        <h4>Most Loyal (Top 10% of Party)</h4>
+                        <table class="table table-bordered" >
+                            <thead class='thead-dark'>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Number Party Votes</th>
+                                    <th>% Party Votes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="mayor in estadisticas.most_loyal">
+                                    <td>{{mayor.last_name}}, {{mayor.first_name}} {{mayor.middle_name}}</td>
+                                    <td>{{Math.round((mayor.total_votes-mayor.missed_votes)*(mayor.votes_with_party_pct/100))}}</td>
+                                    <td>{{mayor.votes_with_party_pct.toFixed(2)}} %</td>
+                                </tr>  
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+            </div>
+
+            <footer class="page-footer font-small blue border border-dark py-3">
+                <div class="footer-copyright text-center">© 2016 TGIF |
+                    All Rights Reserved
+                </div>
+                  <!-- Copyright -->
+                
+            </footer>
+        </div>
+        <!-- development version, includes helpful console warnings -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="./scripts/TGIF_statistics.js"></script> 
+    </body>
+</html>

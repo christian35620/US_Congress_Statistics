@@ -1,0 +1,9 @@
+var statistics={
+"parties":["Democrat","Republican","Independent","Total"],
+"number_of_senators":[],
+"vwp_pct": [],
+"least_loyal":[],
+"most_loyal":[],
+"least_engaged":[],
+"most_engaged":[]
+}

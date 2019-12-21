@@ -1,0 +1,8 @@
+.nav, .page-footer{   
+	background-color: #EEEEEE;
+	border:1px solid #777777;
+}
+
+.nav a:hover{
+	background-color:#cccccc;
+}

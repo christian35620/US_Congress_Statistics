@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Senators</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="./styles/styles.css">
+        <!-- <script src="./json/pro-congress-113-senate.json"></script> -->
+        <script src="./json/eeuu_states.json"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </head>
+    
+    <body>
+        <div id="app" class="container senate">
+            <header class="row">
+                <div class="col-md-3">
+                    <a href="./home.html"><img class="logo" src="./images/tgif_logo_h.jpg" height="100" width="300" alt="logo TGIF"></a>
+                </div>
+                <div class="col-md-6"></div>
+                <div class="col-md-3 align-self-center">
+                    <img src="./images/mail_icon.png" alt="">
+                    <a href="mailto:info@tgif.net">info@tgif.net</a>
+                </div>
+            </header>
+            <nav>
+            <div>
+                <ul class="nav nav-tabs border border-dark py-0">
+                    <li class="nav-item">
+                        <a class="nav-link border border-0 rounded-0" href="./home.html">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle border border-0 rounded-0" data-toggle="dropdown" href="#">Congress 113</a>
+                        <div class="dropdown-menu border border-dark rounded">
+                            <a class="dropdown-item" href="./house-data.html">House</a>
+                            <a class="dropdown-item" href="#">Senate</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle border border-0 rounded-0" data-toggle="dropdown" href="#">Attendance</a>
+                        <div class="dropdown-menu border border-dark rounded">
+                            <a class="dropdown-item" href="./house_attendance_statistics.html">House</a>
+                            <a class="dropdown-item" href="./senate_attendance_statistics.html">Senate</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle border border-0 rounded-0" data-toggle="dropdown" href="#">Party Loyalty</a>
+                        <div class="dropdown-menu border border-dark rounded">
+                            <a class="dropdown-item" href="./house_party_loyalty_statistics.html">House</a>
+                            <a class="dropdown-item" href="./senate_party_loyalty_statistics.html">Senate</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            </nav>        
+
+
+            <br><br>
+            <div>
+                <h2>Senators</h2>
+                <p>First convened in 1789, the composition and powers of the Senate are established in Article One of the U.S. Constitution. Each state is represented by two senators, regardless of population, who serve staggered six-year terms. The Senate has several exclusive powers not granted to the House, including consenting to treaties as a precondition to their ratification and consenting to or confirming appointments of Cabinet secretaries, federal judges, other federal executive officials, military officers, regulatory officials, ambassadors, and other federal uniformed officers, as well as trial of federal officials impeached by the House.
+                                    </p>
+            </div>  
+
+            <div class="row">
+                <div  class="col align-self-center filtro_partido"> <!-- filtro por partido -->
+                        <p class="d-inline mx-4">Filter by Party:</p>
+                    <div class="form-check-inline">
+                        <label class="form-check-label">
+                            <input type="checkbox" v-model="selectedItems.filtro_partido" class="form-check-input" value="R">Republican
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                        <label class="form-check-label">
+                            <input type="checkbox" v-model="selectedItems.filtro_partido" class="form-check-input" value="D">Democrat
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                        <label class="form-check-label">
+                            <input type="checkbox" v-model="selectedItems.filtro_partido" class="form-check-input" value="I">Independent
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-5 align-self-center"> <!-- filtro por estados -->
+                    <p class="d-inline mx-4">Filter by State:</p>
+                    <div class="form-group d-inline">
+                        <label>
+                            <select  v-model="selectedItems.filtro_estado" class="form-control" id="sel1"> <!-- lista de seleccion para filtro por estados -->
+                                <template v-for="(estado,key) in estados">
+                                    <option :id="key">{{estado}}</option>
+                                </template>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div> <!-- fin div filtros -->
+
+            <div>   
+                <table class="table table-hover">
+                    <thead class='thead-dark'>
+                        <tr><th>Senator</th>
+                            <th>Party Afilliation</th>
+                            <th>State</th>
+                            <th>Seniority</th>
+                            <th>Percentage of votes with party</th></tr>
+                    </thead>
+                    <tbody>
+                        <template v-for="senator in senators"><!-- v-for itera sobre los senadores para que luego v-show deje pasar a los que cumplan su condicion -->
+                            <!-- v-show filtra las filas a mostrar llamando a comparador() -->
+                            <tr v-show="comparador(senator.party,senator.state)" id="senador" :class="senator.party+' '+senator.state">
+                                    <td><a :href="senator.url">{{senator.last_name}}, {{senator.first_name}} {{senator.middle_name}}</a> </td> 
+                                    <td>{{senator.party}}</td>
+                                    <td>{{senator.state}}</td>
+                                    <td>{{senator.seniority}}</td>
+                                    <td>{{senator.votes_with_party_pct}} %</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div> 
+
+            <footer class="page-footer font-small blue border border-dark py-3">
+                <div class="footer-copyright text-center">© 2016 TGIF |
+                    All Rights Reserved
+                </div>
+                  <!-- Copyright -->
+                
+            </footer>
+        </div>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./scripts/tgif.js"></script>
+</body>
+</html>
